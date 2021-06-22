@@ -1,24 +1,27 @@
-import logo from './logo.svg';
 import './App.css';
+import { Footer } from './components/Footer';
+import { useQuestion } from './components/hooks/useQuestion';
+import { Loader } from './components/Loader';
+import { Question } from './components/Question';
+import { ResultsCard } from './components/ResultsCard';
 
-function App() {
+const App = () => {
+
+  const { question, setQuestion, loader } = useQuestion();
+  const { questionNumber, isCorrect } = question;
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    loader
+      ? <Loader />
+      : <>
+        <main className="main">
+          <h1 className="main__title">COUNTRY QUIZ</h1>
+          {!isCorrect || questionNumber > 248
+            ? <ResultsCard questionNumber={questionNumber} question={question} setQuestion={setQuestion} />
+            : <Question question={question} setQuestion={setQuestion} />}
+        </main>
+        <Footer />
+      </>
   );
 }
 
